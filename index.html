@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThreatMap 3D — see how attacks connect</title>
+<meta name="description" content="A 3D evidence board of well-known attacks and the strings between them. Built with Three.js from public threat reporting. Sample data, honestly labelled.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <p class="kicker">Apart Research · Threat Intelligence Hackathon</p>
+    <p class="sample-flag">Sample dataset — drawn from public reporting, not a live feed</p>
+  </div>
+</header>
+
+<main>
+  <!-- PROBLEM -->
+  <section class="case-section" id="problem">
+    <p class="case-label">The problem</p>
+    <h1>Attacks are not single events.<br>They are webs.</h1>
+    <p class="lede">One break-in is rarely one thing. A phishing trojan opens the
+    door, a second tool takes control, a ransomware crew walks in last. The
+    pieces have names — malware, domains, servers, file hashes — but a list of
+    names does not show how they hold together.</p>
+    <p class="lede">ThreatMap 3D pins the pieces to a board and draws the
+    string between them, in 3D, so you can walk around the web and read it
+    the way an analyst does: what is this, what does it touch, and what
+    breaks if we pull it out?</p>
+  </section>
+
+  <!-- EXPLORER -->
+  <section class="case-section" id="explorer">
+    <p class="case-label">The board</p>
+    <h2>The evidence board</h2>
+    <p class="board-help">Drag to walk around the board. Scroll to step
+    closer. Click any pin to read its card. Every pin and string below is
+    from public reporting — the sources are listed under the board.</p>
+
+    <div class="board-layout">
+      <aside class="rail" aria-label="Board controls">
+        <div class="rail-block">
+          <label class="rail-title" for="search-input">Find a pin</label>
+          <div class="search-row">
+            <input id="search-input" type="text" list="pin-names"
+              placeholder="Try: Emotet, WannaCry, Dyn…" autocomplete="off">
+            <datalist id="pin-names"></datalist>
+            <button id="search-btn" type="button">Find</button>
+          </div>
+          <p class="rail-msg" id="search-msg" role="status"></p>
+        </div>
+
+        <div class="rail-block">
+          <p class="rail-title" id="filter-title">Evidence types</p>
+          <div class="filter-list" role="group" aria-labelledby="filter-title">
+            <label class="filter-item"><input type="checkbox" class="type-filter" value="malware" checked>
+              <span class="dot" style="--dot:#e4572e"></span>Malware families</label>
+            <label class="filter-item"><input type="checkbox" class="type-filter" value="domain" checked>
+              <span class="dot" style="--dot:#4f9da6"></span>Domains</label>
+            <label class="filter-item"><input type="checkbox" class="type-filter" value="ip" checked>
+              <span class="dot" style="--dot:#7fb069"></span>IPs / address sets</label>
+            <label class="filter-item"><input type="checkbox" class="type-filter" value="hash" checked>
+              <span class="dot" style="--dot:#9b7ede"></span>File hashes</label>
+            <label class="filter-item"><input type="checkbox" class="type-filter" value="campaign" checked>
+              <span class="dot" style="--dot:#e0b458"></span>Campaigns</label>
+          </div>
+        </div>
+
+        <div class="rail-block">
+          <label class="rail-title" for="campaign-select">Campaign view</label>
+          <select id="campaign-select">
+            <option value="all">All campaigns</option>
+          </select>
+          <p class="rail-note">Spotlights one campaign's pins and dims the rest of the board.</p>
+        </div>
+
+        <div class="rail-block">
+          <label class="rail-title" for="timeline">Timeline — first seen by year</label>
+          <input id="timeline" type="range" min="2007" max="2020" step="1" value="2020">
+          <p class="rail-note">Showing pins first seen up to <strong id="timeline-year">2020</strong></p>
+        </div>
+
+        <div class="rail-block">
+          <button id="reset-btn" type="button" class="wide-btn">Reset the board</button>
+          <p class="rail-note" id="count-line" role="status"></p>
+        </div>
+      </aside>
+
+      <div class="stage">
+        <canvas id="board" tabindex="0"
+          aria-label="3D evidence board. Use arrow keys to orbit, plus and minus to zoom, or drag with the mouse."></canvas>
+        <p class="stage-hint">Drag to orbit · Scroll to zoom · Arrow keys work too · Click a pin for its card</p>
+      </div>
+
+      <aside class="detail" id="detail-panel" aria-label="Pin details">
+        <div class="detail-empty" id="detail-empty">
+          <p class="detail-title">No pin selected</p>
+          <p>Click any pin on the board and its card appears here: what it is,
+          when it was first seen, what it connects to, and why it matters —
+          in plain words.</p>
+        </div>
+        <div class="detail-body hidden" id="detail-body">
+          <button id="detail-close" type="button" class="detail-close" aria-label="Close this card">×</button>
+          <p class="detail-type" id="d-type"></p>
+          <h3 class="detail-title" id="d-label"></h3>
+          <p class="detail-value hidden" id="d-value"></p>
+          <p class="detail-meta" id="d-meta"></p>
+          <p class="detail-note" id="d-note"></p>
+          <p class="detail-conn-title">Connected to</p>
+          <ul class="detail-conn" id="d-conn"></ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- FINDINGS -->
+  <section class="case-section" id="findings">
+    <p class="case-label">Case notes</p>
+    <h2>What the board tells us</h2>
+    <p class="lede">These three notes are not written by hand. The page works
+    them out from the pins and strings every time it loads — change the data
+    and the notes change.</p>
+    <div class="finding-grid">
+      <article class="finding-card">
+        <p class="finding-kind">Most connected pin</p>
+        <h3 id="f-connected-name">…</h3>
+        <p id="f-connected-text">Working it out…</p>
+      </article>
+      <article class="finding-card">
+        <p class="finding-kind">Biggest campaign</p>
+        <h3 id="f-campaign-name">…</h3>
+        <p id="f-campaign-text">Working it out…</p>
+      </article>
+      <article class="finding-card">
+        <p class="finding-kind">The bridge</p>
+        <h3 id="f-bridge-name">…</h3>
+        <p id="f-bridge-text">Working it out…</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- OUTCOME -->
+  <section class="case-section" id="outcome">
+    <p class="case-label">The outcome</p>
+    <h2>Why a board, not a list</h2>
+    <p class="lede">A list tells you what exists. A board tells you what
+    matters. On this board you can see in seconds that one delivery network
+    fed half the ransomware era, that a single shared tool quietly joins two
+    stories that look unrelated, and that some of the worst days on the
+    internet turned on a $10 domain registration.</p>
+    <p class="lede">That is the habit threat intelligence runs on: follow the
+    string, ask what else it touches, and defend the connections — not just
+    the names.</p>
+  </section>
+</main>
+
+<footer class="footer">
+  <p><strong>Honest note on the data:</strong> every pin and string on this
+  board is a teaching sample drawn from public reporting — vendor research,
+  government advisories and court records, listed in
+  <span class="mono">DATA_SOURCE.md</span> in the project folder. Nothing
+  here is live, scraped or secret, and the years are "first seen in public
+  reporting", which is how analysts date these things.</p>
+  <p>ThreatMap 3D · Built with Three.js · Apart Research Threat Intelligence
+  &amp; Threat Modelling Hackathon, December 2026</p>
+</footer>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
