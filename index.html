@@ -37,13 +37,21 @@
     string between them, in 3D, so you can walk around the web and read it
     the way an analyst does: what is this, what does it touch, and what
     breaks if we pull it out?</p>
+
+    <div class="stage hero-stage">
+      <canvas id="board" tabindex="0"
+        aria-label="3D evidence board. Use arrow keys to orbit, plus and minus to zoom, or drag with the mouse."></canvas>
+      <p class="stage-hint">Drag to orbit · Scroll to zoom · Arrow keys work too · Click a pin for its card</p>
+    </div>
+    <p class="hero-stage-hint">The board above is live — pins drift gently until you take over.</p>
+    <a class="scroll-cue" href="#explorer">↓ Scroll — work the board below</a>
   </section>
 
   <!-- EXPLORER -->
   <section class="case-section" id="explorer">
     <p class="case-label">The board</p>
     <h2>The evidence board</h2>
-    <p class="board-help">Drag to walk around the board. Scroll to step
+    <p class="board-help">The board is live at the top of the page. Drag to walk around it. Scroll to step
     closer. Click any pin to read its card. Every pin and string below is
     from public reporting — the sources are listed under the board.</p>
 
@@ -95,12 +103,6 @@
           <p class="rail-note" id="count-line" role="status"></p>
         </div>
       </aside>
-
-      <div class="stage">
-        <canvas id="board" tabindex="0"
-          aria-label="3D evidence board. Use arrow keys to orbit, plus and minus to zoom, or drag with the mouse."></canvas>
-        <p class="stage-hint">Drag to orbit · Scroll to zoom · Arrow keys work too · Click a pin for its card</p>
-      </div>
 
       <aside class="detail" id="detail-panel" aria-label="Pin details">
         <div class="detail-empty" id="detail-empty">

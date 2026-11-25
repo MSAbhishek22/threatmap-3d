@@ -63,9 +63,18 @@ sources (`DATA_SOURCE.md`).
 
 ## Filing checklist
 
-- [ ] App deployed at a public HTTPS URL (see DEPLOY.md)
-- [ ] Demo video recorded from the LIVE deployment (user step)
-- [ ] Report written from the outline above, ≤ 8 pages, PDF
+**VERIFIED ON THE LIVE EVENT PAGE 25 Nov 2026 (supersedes the assumptions below):**
+- Prize split on the page is **$3,000 / $1,500 / $500** (not the $2,500/$1,250/$750/$250/$250 above).
+- He was NOT signed up for this sprint — sign-up is a separate step and the project submission form only appears after it. Sign-up filed 25 Nov 2026.
+- The report MUST use the **official template** (Google Doc linked in the Guidelines tab) and must include: project title + **abstract of 150–250 words**, author names and affiliations, and a **required "Limitations and Dual-Use / Ethical Considerations" appendix**. Max 8 pages excluding references and appendices.
+- **TEMPLATE LINK — VERIFIED 25 Nov 2026 ~09:23 IST (read twice from the Guidelines tab link targets): https://docs.google.com/document/d/1vbJBxspRtoSvn95dPYdXSqHtHKhTSDRU8t-h_lz-kRw/copy?usp=sharing — use ONLY this. ⚠️ The older link recorded in the overnight notes (…/d/1Rr9hSjOlfZf4q6zLk_7B6h1Q2RND1Q1U_9d7I3dZ9gU/copy) is DEAD (Google Docs "file does not exist", confirmed 25 Nov ~09:20 IST) — never use it again. The Guidelines FAQ warns: "Always use the one linked on the Guidelines tab. The template in any account, email, or link from elsewhere may be outdated." Abstract per the page: "up to 250 words" (our 198-word abstract fits). Submission is a PDF through "the official submission form on the Sprint page" — NO form is visible on the page yet (checked 25 Nov, all four tabs, signed out); it appears in the sprint window (4–6 Dec). Guidelines: "Don't email it to us." Deadline on the Schedule tab: "Sunday December 6, 11:59pm AoE".
+- Video demo is **OPTIONAL** (3–5 min suggested; ours is 2:05). Public GitHub repo optional (ours exists).
+- Resubmission rule: filing again with the same title replaces the earlier submission.
+- Confirmation arrives by email after submitting.
+
+- [x] App deployed at a public HTTPS URL (https://msabhishek22.github.io/threatmap-3d/)
+- [x] Demo video recorded from the LIVE deployment (threatmap-demo.mp4, 2:05 — optional deliverable)
+- [x] Report REWRITTEN into the official template — DONE 25 Nov 2026 ~10:48 IST: copy "ThreatMap 3D — Apart Threat Intelligence Report" in his Drive (bdps account), https://docs.google.com/document/d/1O5jZ1kP44hDWu6hl2h0Y-ZeSdrcCQqnKD5qRRkbyniI/edit — title + abstract (198 words) + all 7 sections + findings table + Code and Data + References (only the sources §2 names) + required Limitations/Dual-Use appendix + LLM Usage Statement; template's "How to use" box deleted; headings adapted per the template's own allowance ("strong guidance but not rigid"). 8 pages total, body ~5 pages — inside the 8-page body limit. NOT submitted anywhere yet; the filing copy is the PDF export of this Doc, made at filing time.
 - [ ] Submission form filed on the Apart event page before
       7 Dec 2026, 17:29 IST — safe target: 6 Dec evening IST
 - [ ] Ledger entry added after the filing receipt exists

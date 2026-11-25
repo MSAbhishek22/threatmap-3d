@@ -163,7 +163,7 @@ function fillFinding(nameId, textId, node, text) {
   btn.type = 'button';
   btn.textContent = 'Show on the board';
   btn.addEventListener('click', () => {
-    document.getElementById('explorer').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('board').scrollIntoView({ behavior: 'smooth', block: 'center' });
     if (!graph.isVisible(node)) {
       $('reset-btn').click();
     }
